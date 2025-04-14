@@ -1,0 +1,21 @@
+{{ block "content" . }}
+  <h1 class="text text-center text-4xl font-bold">Profile</h1>
+  <div class="my-5 flex items-center justify-center">
+    <button onclick="theme()" class="w-full max-w-[500px] cursor-pointer rounded-lg bg-black px-5 py-2.5 text-center text-neutral-400 dark:bg-white" type="submit">Theme</button>
+  </div>
+  <form onsubmit="formReq(event,'PATCH','/user/{{ .ID }}/updateProfile/')" class="mx-auto max-w-[500px] space-y-4 rounded-lg border border-neutral-400 p-6">
+    <label class="text" for="email">Email</label>
+    <input name="email" id="email" class="input text" type="email" value="{{ .Email }}" />
+    <br />
+    <label class="text" for="password">Password</label>
+    <input name="password" id="password" class="input text" type="password" placeholder="••••••••" />
+    <br />
+    <label class="text" for="password2">Confirm password</label>
+    <input name="password2" id="password2" class="input text" type="password" placeholder="••••••••" />
+    <button class="inline-flex w-full items-center justify-center rounded-lg bg-blue-600 px-5 py-2.5 text-white hover:bg-blue-800 focus:ring-blue-300" type="submit">Update Account</button>
+  </form>
+  <div class="mt-5 flex items-center justify-center">
+    <button onclick="btnReq('POST', '/user/logout/')" class="w-full max-w-[500px] cursor-pointer rounded-lg bg-red-600 px-5 py-2.5 text-center text-white hover:bg-red-800 focus:ring-red-300" type="submit">Logout</button>
+  </div>
+  <br />
+{{ end }}

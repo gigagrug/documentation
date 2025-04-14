@@ -1,0 +1,18 @@
+{{ block "content" . }}
+  <h1 class="my-3 text-center">Create an Account</h1>
+  <form onsubmit="formReq(event,'POST','/user/register/')" class="mx-auto max-w-[500px] space-y-4 rounded-lg border border-neutral-400 p-6">
+    <label class="text" for="email">Email</label>
+    <input name="email" id="email" class="input text" type="email" placeholder="name@domain.com" />
+    <br />
+    <label class="text" for="password">Password</label>
+    <input name="password" id="password" class="input text" type="password" placeholder="••••••••" />
+    <br />
+    <label class="text" for="password2">Confirm password</label>
+    <input name="password2" id="password2" class="input text" type="password" placeholder="••••••••" />
+    <button class="inline-flex w-full items-center justify-center rounded-lg bg-blue-600 px-5 py-2.5 text-white hover:bg-blue-800 focus:ring-blue-300 disabled:bg-neutral-700" type="submit">Create an Account</button>
+    <p class="text-neutral-400">
+      Already have an account?
+      <a href="/login" class="font-medium text-blue-600 hover:underline">Login here</a>
+    </p>
+  </form>
+{{ end }}

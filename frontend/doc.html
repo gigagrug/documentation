@@ -1,0 +1,112 @@
+{{ block "content" . }}
+  {{ $docID := .Document.ID }}
+  {{ $editable := .EditAllowed }}
+  <div class="relative flex">
+    <aside class="fixed mt-20 h-auto min-h-screen w-64 flex-none bg-white p-2 lg:block dark:bg-black" id="sidebar" popover>
+      <button id="doc-toggle-button" popovertarget="sidebar" popovertargetaction="close" class="text flex w-full cursor-pointer justify-end lg:hidden">
+        <svg class="h-6 w-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 17.94 6M18 18 6.06 6" />
+        </svg>
+      </button>
+      <div class="flex justify-between">
+        <h1 class="text text-xl font-bold">{{ .Document.Name }}</h1>
+        {{ if $editable }}
+          <button onclick="btnReq('DELETE','/api/{{ $docID }}/deleteDocument/')" class="cursor-pointer text-red-500">X</button>
+        {{ end }}
+      </div>
+      <div class="addpost">
+        <div class="flex justify-between">
+          <a href="/doc/{{ $docID }}/" class="text-neutral-500">{{ .Document.Content }}</a>
+        </div>
+      </div>
+    </aside>
+    <div class="w-full md:flex lg:ps-72">
+      {{ if $editable }}
+        <div class="md:w-1/2">
+          <form onsubmit="formReq(event, 'PUT', '/api/{{ $docID }}/updateDocument/')" class="mx-auto">
+            <input class="text w-full text-center text-3xl" type="text" name="title" value="{{ .Document.Name }}" />
+            <textarea rows="3" class="input text h-[500px]" name="content" id="mta">{{ .Document.Content }}</textarea>
+            <button class="inline-flex w-full items-center justify-center rounded-lg bg-blue-600 px-5 py-2.5 text-white hover:bg-blue-800 focus:ring-blue-300" type="submit">Update Page</button>
+          </form>
+        </div>
+        <div id="content" class="markdown text md:w-1/2"></div>
+      {{ else }}
+        <div id="content" class="markdown text mx-auto px-2 lg:w-2/3">{{ .Document.Content }}</div>
+      {{ end }}
+    </div>
+  </div>
+{{ end }}
+
+{{ block "js" . }}
+  <script>
+    function renderMarkdown() {
+      const contentDiv = document.getElementById("content");
+      const textArea = document.getElementById("mta");
+
+      if (textArea) {
+        let htmlContent = marked.parse(textArea.value);
+
+        htmlContent = htmlContent.replace(/<(h[1-3])>(.*?)<\/\1>/g, function (match, p1, p2) {
+          const headerId = p2.toLowerCase().replace(/\s+/g, "-");
+          return `<${p1} id="${headerId}">${p2}</${p1}>`;
+        });
+
+        const sanitizedHtml = DOMPurify.sanitize(htmlContent);
+        contentDiv.innerHTML = sanitizedHtml;
+      }
+
+      updateSidebar();
+    }
+
+    function updateSidebar() {
+      const contentDiv = document.querySelector(".addpost");
+      const headers = document.querySelectorAll("h1, h2, h3");
+
+      contentDiv.innerHTML = "";
+
+      headers.forEach((header) => {
+        const headerDiv = document.createElement("div");
+        headerDiv.classList.add("flex", "justify-between");
+
+        const link = document.createElement("a");
+        link.href = `#${header.id}`;
+        link.classList.add("text-neutral-500");
+        link.textContent = header.textContent;
+
+        let indentLevel = 0;
+        if (header.tagName === "H1") {
+          indentLevel = 0;
+        } else if (header.tagName === "H2") {
+          indentLevel = 20;
+        } else if (header.tagName === "H3") {
+          indentLevel = 40;
+        }
+
+        headerDiv.style.marginLeft = `${indentLevel}px`;
+        headerDiv.appendChild(link);
+        contentDiv.appendChild(headerDiv);
+      });
+    }
+
+    function initialize() {
+      const textArea = document.getElementById("mta");
+      const contentDiv = document.getElementById("content");
+
+      if (textArea) {
+        textArea.addEventListener("input", renderMarkdown);
+        renderMarkdown();
+      } else if (contentDiv) {
+        const staticHtml = marked.parse(contentDiv.innerHTML);
+        const updatedHtml = staticHtml.replace(/<(h[1-3])>(.*?)<\/\1>/g, function (match, p1, p2) {
+          const headerId = p2.toLowerCase().replace(/\s+/g, "-");
+          return `<${p1} id="${headerId}">${p2}</${p1}>`;
+        });
+
+        contentDiv.innerHTML = DOMPurify.sanitize(updatedHtml);
+        updateSidebar();
+      }
+    }
+
+    initialize();
+  </script>
+{{ end }}

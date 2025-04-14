@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="/static/output.css" rel="stylesheet" />
+    <script src="/static/form.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.5/dist/purify.min.js"></script>
+    <title>Documentation</title>
+  </head>
+  <body class="bg-white dark:bg-black">
+    <nav class="border-b border-b-neutral-200 dark:border-b-neutral-800">
+      <div class="mx-auto flex flex-wrap items-center justify-between p-4">
+        <button id="doc-toggle-button" popovertarget="sidebar" popovertargetaction="show" class="text hidden lg:hidden">
+          <svg class="text h-8 w-8" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M5 7h14M5 12h14M5 17h14" />
+          </svg>
+        </button>
+        <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
+          <span class="text self-center text-2xl font-semibold whitespace-nowrap">Documentation</span>
+        </a>
+        <form onsubmit="formReq(event,'POST', '/api/search/')" class="grow rounded-lg md:px-5">
+          <input name="name" id="name" class="input text" type="text" placeholder="Search" />
+        </form>
+        <ul class="flex flex-row space-x-4 font-medium">
+          <a href="/" class="text">Home</a>
+          {{ if .Auth }}
+            <a href="/u/{{ .User }}/" class="text">Documents</a>
+            <a href="/profile" class="text">Profile</a>
+          {{ else }}
+            <a href="/login" class="text">Login</a>
+            <a href="/register" class="text">Register</a>
+          {{ end }}
+        </ul>
+      </div>
+    </nav>
+    <div class="px-2">
+      {{ block "content" . }}{{ end }}
+    </div>
+    {{ block "js" . }}{{ end }}
+  </body>
+</html>

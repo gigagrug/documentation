@@ -1,0 +1,107 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer components {
+  .input {
+    @apply w-full rounded-lg border p-2;
+  }
+  .text {
+    @apply text-black dark:text-white;
+  }
+
+  .markdown {
+    @apply leading-normal break-words text-black dark:text-white;
+  }
+
+  .markdown > * + * {
+    @apply mt-0 mb-4;
+  }
+
+  .markdown li + li {
+    @apply mt-1;
+  }
+
+  .markdown li > p + p {
+    @apply mt-6;
+  }
+
+  .markdown strong {
+    @apply font-semibold;
+  }
+
+  .markdown a {
+    @apply font-semibold text-blue-600;
+  }
+
+  .markdown strong a {
+    @apply font-bold;
+  }
+
+  .markdown h1 {
+    @apply mt-6 mb-4 border-b pb-2 text-4xl leading-tight font-semibold;
+  }
+
+  .markdown h2 {
+    @apply mt-6 mb-4 border-b pb-2 text-2xl leading-tight font-semibold;
+  }
+
+  .markdown h3 {
+    @apply mt-6 mb-4 text-lg leading-snug font-semibold;
+  }
+
+  .markdown h4 {
+    @apply mt-6 mb-4 text-base leading-none font-semibold;
+  }
+
+  .markdown h5 {
+    @apply mt-6 mb-4 text-sm leading-tight font-semibold;
+  }
+
+  .markdown h6 {
+    @apply mt-6 mb-4 text-sm leading-tight font-semibold text-gray-600;
+  }
+
+  .markdown blockquote {
+    @apply border-l-4 border-gray-300 pr-4 pl-4 text-base text-gray-500;
+  }
+
+  .markdown code {
+    @apply inline rounded bg-neutral-200 px-1 font-mono text-sm dark:bg-neutral-800;
+  }
+
+  .markdown pre {
+    @apply overflow-auto rounded bg-neutral-200 p-4 dark:bg-neutral-800;
+  }
+
+  .markdown pre code {
+    @apply block overflow-visible rounded-none bg-transparent p-0;
+  }
+
+  .markdown ul {
+    @apply list-disc pl-8 text-base;
+  }
+
+  .markdown ol {
+    @apply list-decimal pl-8 text-base;
+  }
+
+  .markdown kbd {
+    @apply inline-block rounded border px-1 align-middle font-mono text-xs font-normal shadow;
+  }
+
+  .markdown table {
+    @apply border-gray-600 text-base;
+  }
+
+  .markdown th {
+    @apply border px-3 py-1;
+  }
+
+  .markdown td {
+    @apply border px-3 py-1;
+  }
+
+  .markdown .highlight pre {
+    @apply bg-gray-100;
+  }
+}

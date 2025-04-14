@@ -1,0 +1,10 @@
+{{ block "content" . }}
+  <form onsubmit="formReq(event,'POST','/api/createDocument/', 'afterbegin')" class="mx-auto max-w-[500px] py-4">
+    <input name="name" id="name" class="input text" type="text" placeholder="Create Document" />
+  </form>
+  <div class="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-6">
+    {{ range .Documents }}
+      <a href="/doc/{{ .ID }}/" class="text rounded-md border border-neutral-400 p-4 text-center">{{ .Name }}</a>
+    {{ end }}
+  </div>
+{{ end }}
