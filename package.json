@@ -4,12 +4,12 @@
     "tw": "npx @tailwindcss/cli -i ./frontend/assets/input.css -o ./frontend/assets/output.css --minify --watch"
   },
   "devDependencies": {
-    "@tailwindcss/cli": "^4.1.3",
+    "@tailwindcss/cli": "^4.1.4",
     "prettier": "^3.5.3",
     "prettier-plugin-go-template": "^0.0.15",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "prisma": "^6.6.0",
-    "tailwindcss": "^4.1.3"
+    "tailwindcss": "^4.1.4"
   },
   "prettier": {
     "plugins": [
