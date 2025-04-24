@@ -1,5 +1,5 @@
 {
-	"name": "documentation",
+  "name": "documentation",
   "scripts": {
     "tw": "npx @tailwindcss/cli -i ./frontend/assets/input.css -o ./frontend/assets/output.css --minify --watch"
   },
